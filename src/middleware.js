@@ -15,5 +15,5 @@ export async function onRequest({ request }) {
     });
   }
 
-  return undefined;
+  return next();
 }
