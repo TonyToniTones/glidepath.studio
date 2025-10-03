@@ -5,7 +5,7 @@ export function middleware(request: NextRequest) {
 
   const username = process.env.AUTH_USERNAME || ''
   const password = process.env.AUTH_PASSWORD || ''
-  const expectedAuth = 'Basic ' + Buffer.from(`${username}:${password}`).toString('base64')
+  const expectedAuth = 'Basic ' + Buffer.from(`${username}:${password}`).toString('base64');
 console.log('[middleware] running on', new Date().toISOString());
   if (auth === expectedAuth) {
     return NextResponse.next()
