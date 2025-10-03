@@ -12,5 +12,5 @@ export async function onRequest({ request, redirect }) {
     });
   }
 
-  return; // Allow request to continue
+  return next(); // Allow request to continue
 }
