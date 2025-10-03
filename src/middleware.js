@@ -1,6 +1,6 @@
 /** @type {import('astro').MiddlewareHandler} */
-export async function onRequest({ request }) {
-  const auth = request.headers.get('authorization');
+export async function onRequest(context, next) {
+  const auth = context.request.headers.get('authorization');
   const expected = 'Basic ' + Buffer.from(`${import.meta.env.AUTH_USERNAME}:${import.meta.env.AUTH_PASSWORD}`).toString('base64');
 
   if (auth !== expected) {
@@ -12,6 +12,6 @@ export async function onRequest({ request }) {
     });
   }
 
-  // ✅ Must return `undefined` to continue request processing
-  return undefined;
+  // ✅ Must return the result of next() to proceed
+  return next(); // <--- THIS IS THE KEY
 }
