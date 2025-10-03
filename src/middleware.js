@@ -12,6 +12,6 @@ export async function onRequest({ request }) {
     });
   }
 
-  // ✅ Continue request — just return nothing
-  return;
+  // ✅ Must return `undefined` to continue request processing
+  return undefined;
 }
