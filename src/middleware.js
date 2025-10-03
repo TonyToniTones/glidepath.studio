@@ -1,7 +1,8 @@
 /** @type {import('astro').MiddlewareHandler} */
 export async function onRequest({ request, redirect, next }) {
   const auth = request.headers.get('authorization');
-  const expected = 'Basic ' + Buffer.from(`${import.meta.env.AUTH_USERNAME}:${import.meta.env.AUTH_PASSWORD}`).toString('base64');
+  const expected =
+    'Basic ' + btoa(`${import.meta.env.AUTH_USERNAME}:${import.meta.env.AUTH_PASSWORD}`);
 
   if (auth !== expected) {
     return new Response('Not authorized', {
@@ -12,5 +13,5 @@ export async function onRequest({ request, redirect, next }) {
     });
   }
 
-  return next(); // ✅ This is required!
+  return next(); // allow the request to proceed
 }
