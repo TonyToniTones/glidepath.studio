@@ -1,8 +1,17 @@
 /** @type {import('astro').MiddlewareHandler} */
 export async function onRequest({ request, redirect, next }) {
   const auth = request.headers.get('authorization');
-  const expected =
-    'Basic ' + btoa(`${import.meta.env.AUTH_USERNAME}:${import.meta.env.AUTH_PASSWORD}`);
+
+  const username = import.meta.env.AUTH_USERNAME;
+  const password = import.meta.env.AUTH_PASSWORD;
+
+  // Fallback for missing credentials
+  if (!username || !password) {
+    console.warn("[middleware] Missing AUTH_USERNAME or AUTH_PASSWORD");
+    return new Response('Server misconfigured', { status: 500 });
+  }
+
+  const expected = 'Basic ' + btoa(`${username}:${password}`);
 
   if (auth !== expected) {
     return new Response('Not authorized', {
@@ -13,5 +22,5 @@ export async function onRequest({ request, redirect, next }) {
     });
   }
 
-  return next(); // allow the request to proceed
+  return next(); // Allow the request to proceed
 }
